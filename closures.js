@@ -16,10 +16,13 @@ another variable called 'inner'. */
 
 // Code Here
 
+var inner = outer();
+
 //Once you do that, invoke inner.
 
 //Code Here
 
+inner();
 
 
 
@@ -50,7 +53,9 @@ in your console. */
   //Code Here
 
 
-
+function makeCall(){
+  console.log(callF());
+}
 
 
 
@@ -66,14 +71,18 @@ in your console. */
 /* Write a function called makeCounter that makes the following code work
 properly. */
 
-//Code Here
+function makeCounter(){
+  var counter = 1;
+  function upUp(){return counter++;}
+  return upUp;
+}
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+   var count = makeCounter();
+   count(); // 1
+   count(); // 2
+   count(); // 3
+   count(); // 4
 
 
 
@@ -98,11 +107,27 @@ the module pattern to achieve this. */
 function counterFactory(value) {
 
   // Code here.
+var updatedValue = value
+var inc = function(){
+  updatedValue++;
+}
 
-
+var dec = function(){
+  updatedValue--;
+}
   return {
+    inc: function(){
+      inc();
+      return updatedValue;
+    },
+
+    dec: function(){
+      dec();
+      return updatedValue;
+    }
   }
 }
+
 
 
 counter = counterFactory(10);
@@ -129,10 +154,14 @@ function motivation(firstname, lastname){
   var welcomeText = 'You\'re doing awesome, keep it up ';
 
   // code message function here.
+  function message() {
+    return 'You\'re doing awesome, keep it up ' + firstname + ' ' + lastname+'.';
+
+  }
 
 
   //Uncommment this to return the value of your invoked message function
-  //return message();
+  return message();
 
 }
 
@@ -171,13 +200,15 @@ var module = (function() {
 	// outside our lexical scope
 
   return {
-    // Code here.
-  };
+    publicMethod: function(){
+      return privateMethod();
+    }
+}
 
 })();
 
 // Uncomment this after you create your public method
-//   module.publicMethod();
+module.publicMethod();
 
 
 
@@ -200,14 +231,14 @@ then 3, etc). Run this code in your console to see what the output is. */
 // To make this code work you will need to create a new scope for every iteration.
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000)
+    setTimeout(newScope(i), i * 1000)
   }
 
-  function newScope(i) {
-    console.log(i)
+function newScope(i) {
+    return function(){
+      return console.log(i)
   }
+}
 }
 timeOutCounter();
 
@@ -220,8 +251,14 @@ timeOutCounter();
 	#PROBLEM-08
 \******************************************************************************/
 
-var funcArray = [];
-
+var funcArray = [
+function(){return 0;},
+function(){return 1;},
+function(){return 2;},
+function(){return 3;},
+function(){return 4;},
+function(){return 5;}
+];
 /*
   Make the following code work
 
